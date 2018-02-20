@@ -32,19 +32,19 @@ export const LaunchSelectors = {
 
 // login request
 export const loginRequest = (state, { phone, password }) => {
-  return state.merge({ fetching: true, phone, password, user: {} })
+  return state.merge({ fetching: true, phone, password })
 }
 
 // login success
 export const loginSuccess = (state, { user }) => {
-  console.log(user)
+  console.log(`loginSuccess: ${user}`)
   return state.merge({ fetching: false, error: null, user })
 }
 
 // login error
 export const loginFailure = (state, { error }) => {
-  console.log(error)
-  return state.merge({ fetching: false, error })
+  console.log(`loginFailure: ${error}`)
+  return state.merge({ fetching: false, error: error.message })
 }
 
 /* ------------- Hookup Reducers To Types ------------- */

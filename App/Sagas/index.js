@@ -17,6 +17,6 @@ const launchApi = LaunchApi.create()
 
 export default function * root () {
   yield all([
-    takeEvery(LaunchTypes.LOGIN_REQUEST, login, launchApi)
+    takeLatest(LaunchTypes.LOGIN_REQUEST, login, launchApi)
   ])
 }

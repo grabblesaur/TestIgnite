@@ -20,12 +20,12 @@ export function * login (api, action) {
   // const currentData = yield select(LaunchSelectors.getData)
   // make the call to the api
   const response = yield call(api.login, { phone, password })
-
   // success?
   if (!response.error) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    yield put(LaunchActions.loginSuccess(response.data))
+    console.log(`response: ${response}`)
+    yield put(LaunchActions.loginSuccess(response))
   } else {
     yield put(LaunchActions.loginFailure(response.error))
   }

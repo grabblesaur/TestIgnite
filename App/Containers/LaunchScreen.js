@@ -25,6 +25,15 @@ class LaunchScreen extends Component {
     this.props.login(phone, password)
   }
 
+  componentDidUpdate() {
+    console.log('cdu():')
+    console.log(this.props.user)
+    console.log(this.props.error)
+    if (this.props.user) {
+      this.props.navigation.navigate('MainScreen')
+    }
+  }
+
   render () {
     return (
       <View style={styles.mainContainer}>
@@ -61,7 +70,11 @@ class LaunchScreen extends Component {
   }
 }
 
-const mapStateToProps = state => ({ user: state.user })
+const mapStateToProps = state => ({
+  user: state.launch.user,
+  fetching: state.launch.fetching,
+  error: state.launch.error
+})
 
 const mapDispatchToProps = (dispatch) => ({
   login: (phone, password) => dispatch(LaunchActions.loginRequest(phone, password))
