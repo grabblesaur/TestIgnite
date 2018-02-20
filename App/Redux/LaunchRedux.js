@@ -4,9 +4,9 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  launchRequest: ['data'],
-  launchSuccess: ['payload'],
-  launchFailure: null
+  loginRequest: ['phone', 'password'],
+  loginSuccess: ['user'],
+  loginFailure: ['error']
 })
 
 export const LaunchTypes = Types
@@ -15,38 +15,42 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  data: null,
-  fetching: null,
-  payload: null,
+  phone: '',
+  password: '',
+  user: null,
+  fetching: false,
   error: null
 })
 
 /* ------------- Selectors ------------- */
 
 export const LaunchSelectors = {
-  getData: state => state.data
+  getUser: state => state.user
 }
 
 /* ------------- Reducers ------------- */
 
-// request the data from an api
-export const request = (state, { data }) =>
-  state.merge({ fetching: true, data, payload: null })
-
-// successful api lookup
-export const success = (state, action) => {
-  const { payload } = action
-  return state.merge({ fetching: false, error: null, payload })
+// login request
+export const loginRequest = (state, { phone, password }) => {
+  return state.merge({ fetching: true, phone, password, user: {} })
 }
 
-// Something went wrong somewhere.
-export const failure = state =>
-  state.merge({ fetching: false, error: true, payload: null })
+// login success
+export const loginSuccess = (state, { user }) => {
+  console.log(user)
+  return state.merge({ fetching: false, error: null, user })
+}
+
+// login error
+export const loginFailure = (state, { error }) => {
+  console.log(error)
+  return state.merge({ fetching: false, error })
+}
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.LAUNCH_REQUEST]: request,
-  [Types.LAUNCH_SUCCESS]: success,
-  [Types.LAUNCH_FAILURE]: failure
+  [Types.LOGIN_REQUEST]: loginRequest,
+  [Types.LOGIN_SUCCESS]: loginSuccess,
+  [Types.LOGIN_FAILURE]: loginFailure
 })
